@@ -4,12 +4,12 @@ cd bert_textcnn
 wget https://storage.googleapis.com/bert_models/2019_05_30/wwm_uncased_L-24_H-1024_A-16.zip
 unzip wwm_uncased_L-24_H-1024_A-16.zip
 
-
+python3 download_glue_data.py --data_dir glue_data --tasks all
 
 export BERT_BASE_DIR=/root/bert_textcnn/wwm_uncased_L-24_H-1024_A-16
-export GLUE_DIR=/path/to/glue
+export GLUE_DIR=/root/bert_textcnn/glue_data
 
-python run_classifier.py \
+python3 run_classifier2.py
   --task_name=MRPC \
   --do_train=true \
   --do_eval=true \

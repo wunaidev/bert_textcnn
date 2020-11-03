@@ -286,7 +286,6 @@ class BertTextcnn(BertModel):
 		self.num_filters = num_filters
 		self.dropout_keep_prob = dropout_keep_prob
 		self.num_classes=num_classes
-		self.config = config
 		
 	def get_cnn_output(self):
 		sequence_output = self.sequence_output
@@ -295,7 +294,7 @@ class BertTextcnn(BertModel):
 		for i, filter_size in enumerate(self.filter_sizes):
 			with tf.name_scope("conv-maxpool-%s" % filter_size):
 				# Convolution Layer
-				filter_shape = [filter_size, self.config.hidden_size, 1, self.num_filters]
+				filter_shape = [filter_size, config.hidden_size, 1, self.num_filters]
 				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1), name="W")
 				b = tf.Variable(tf.constant(0.1, shape=[self.num_filters]), name="b")
 				conv = tf.nn.conv2d(

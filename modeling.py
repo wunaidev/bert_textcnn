@@ -432,10 +432,10 @@ def embedding_lookup(input_ids,
 
 	flat_input_ids = tf.reshape(input_ids, [-1])
 	if use_one_hot_embeddings:
-	one_hot_input_ids = tf.one_hot(flat_input_ids, depth=vocab_size)
-	output = tf.matmul(one_hot_input_ids, embedding_table)
+		one_hot_input_ids = tf.one_hot(flat_input_ids, depth=vocab_size)
+		output = tf.matmul(one_hot_input_ids, embedding_table)
 	else:
-	output = tf.gather(embedding_table, flat_input_ids)
+		output = tf.gather(embedding_table, flat_input_ids)
 
 	input_shape = get_shape_list(input_ids)
 

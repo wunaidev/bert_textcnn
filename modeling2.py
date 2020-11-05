@@ -321,6 +321,10 @@ class BertTextcnn(BertModel):
 		num_filters_total = self.num_filters * len(self.filter_sizes)
 		self.h_pool = tf.concat(pooled_outputs, 3)
 		self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
+		print("pre_h_pool_flat:{}".format(self.h_pool_flat))
+		print("pooled_output:{}".format(self.pooled_output))
+		self.h_pool_flat = tf.concat([self.h_pool_flat, self.pooled_output], axis=-1)
+		print("after_h_pool_flat:{}".format(self.h_pool_flat))
 
 #3.进行dropout
 		# Add dropout
@@ -332,7 +336,7 @@ class BertTextcnn(BertModel):
 		with tf.name_scope("output"):
 			W = tf.get_variable(
 				"W",
-				shape=[num_filters_total, self.num_classes],
+				shape=[num_filters_total + self.config.hidden_size, self.num_classes],
 				initializer=tf.contrib.layers.xavier_initializer())
 			b = tf.Variable(tf.constant(0.1, shape=[self.num_classes]), name="b")
 			'''
@@ -342,7 +346,7 @@ class BertTextcnn(BertModel):
 			self.scores = tf.nn.xw_plus_b(self.h_drop, W, b, name="scores")
 			self.predictions = tf.argmax(self.scores, 1, name="predictions")
 
-		return self.scores
+		return self.logits
 
 
 def gelu(x):

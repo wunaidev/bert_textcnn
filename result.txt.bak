@@ -1,0 +1,45 @@
+*************bert-base**************
+
+bert 2e-5
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:  eval_accuracy = 0.86519605
+INFO:tensorflow:  eval_loss = 0.5821545
+INFO:tensorflow:  global_step = 1375
+INFO:tensorflow:  loss = 0.5821545
+
+
+textcnn 2e-5
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.85294116
+INFO:tensorflow:	eval_loss = 0.59371036
+INFO:tensorflow:	global_step = 1375
+INFO:tensorflow:	loss = 0.59371036
+
+
+
+
+
+textcnn 5e-5
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.85784316
+INFO:tensorflow:	eval_loss = 0.39874282
+INFO:tensorflow:	global_step = 343
+INFO:tensorflow:	loss = 0.39874282
+
+
+
+*************bert-large**************
+
+bert
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:  eval_accuracy = 0.71813726
+INFO:tensorflow:  eval_loss = 0.5606647
+INFO:tensorflow:  global_step = 1375
+INFO:tensorflow:  loss = 0.5606647
+
+textcnn
+INFO:tensorflow:***** Eval results *****
+
+0.68 0.62
+
+textcnn_2

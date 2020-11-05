@@ -317,21 +317,17 @@ class BertTextcnn(BertModel):
 				pooled_outputs.append(pooled)
 
 		# Combine all the pooled features
-		#å°†ä¸‰ç§filtersizeçš„outputæ‹¼æ¥å¹¶æ‹‰å¹³ï¼Œç”¨ä»¥å…¨è¿æ¥å±‚
+		#½«ÈıÖÖfiltersizeµÄoutputÆ´½Ó²¢À­Æ½£¬ÓÃÒÔÈ«Á¬½Ó²ã
 		num_filters_total = self.num_filters * len(self.filter_sizes)
 		self.h_pool = tf.concat(pooled_outputs, 3)
 		self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
-		print("pre_h_pool_flat:{}".format(self.h_pool_flat))
-		print("pooled_output:{}".format(self.pooled_output))
-		self.h_pool_flat = tf.concat([self.h_pool_flat, self.pooled_output], axis=-1)
-		print("after_h_pool_flat:{}".format(self.h_pool_flat))
 
-#3.è¿›è¡Œdropout
+#3.½øĞĞdropout
 		# Add dropout
 		with tf.name_scope("dropout"):
 			self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob)
 
-#4.å…¨è¿æ¥å±‚ï¼ˆoutputï¼‰
+#4.È«Á¬½Ó²ã£¨output£©
 		# Final (unnormalized) scores and predictions
 		with tf.name_scope("output"):
 			W = tf.get_variable(
@@ -346,7 +342,97 @@ class BertTextcnn(BertModel):
 			self.scores = tf.nn.xw_plus_b(self.h_drop, W, b, name="scores")
 			self.predictions = tf.argmax(self.scores, 1, name="predictions")
 
-		return self.logits
+		return self.scores, self.sequence_output
+
+
+
+class BertCapsuleNet(BertModel):
+	def __init__(self,
+			   config,
+			   is_training,
+			   input_ids,
+			   input_mask=None,
+			   token_type_ids=None,
+			   use_one_hot_embeddings=False,
+			   scope=None,
+			   #TextCNN paramters
+			   filter_sizes=(3,4,5),
+			   num_filters=128, 
+			   dropout_keep_prob=1.0,
+			   num_classes=4):
+		super(BertTextcnn, self).__init__(config,
+			   is_training,
+			   input_ids,
+			   input_mask=input_mask,
+			   token_type_ids=token_type_ids,
+			   use_one_hot_embeddings=use_one_hot_embeddings,
+			   scope=scope)
+		self.filter_sizes = filter_sizes
+		self.num_filters = num_filters
+		self.dropout_keep_prob = dropout_keep_prob
+		self.num_classes=num_classes
+		self.config = config
+		
+	def get_cnn_output(self):
+		sequence_output = self.sequence_output
+		self.embedded_chars_expanded = tf.expand_dims(self.sequence_output, -1)
+		pooled_outputs = []
+		for i, filter_size in enumerate(self.filter_sizes):
+			with tf.name_scope("conv-maxpool-%s" % filter_size):
+				# Convolution Layer
+				filter_shape = [filter_size, self.config.hidden_size, 1, self.num_filters]
+				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1), name="W")
+				b = tf.Variable(tf.constant(0.1, shape=[self.num_filters]), name="b")
+				conv = tf.nn.conv2d(
+					self.embedded_chars_expanded,
+					W,
+					strides=[1, 1, 1, 1],
+					padding="VALID",
+					name="conv")
+				# Apply nonlinearity
+				h = tf.nn.relu(tf.nn.bias_add(conv, b), name="relu")
+				print(sequence_output.shape)
+				# Maxpooling over the outputs
+				pooled = tf.nn.max_pool(
+					h,
+					ksize=[1, sequence_output.shape[1] - filter_size + 1, 1, 1],
+					strides=[1, 1, 1, 1],
+					padding='VALID',
+					name="pool")
+				pooled_outputs.append(pooled)
+
+		# Combine all the pooled features
+		#½«ÈıÖÖfiltersizeµÄoutputÆ´½Ó²¢À­Æ½£¬ÓÃÒÔÈ«Á¬½Ó²ã
+		num_filters_total = self.num_filters * len(self.filter_sizes)
+		self.h_pool = tf.concat(pooled_outputs, 3)
+		self.h_pool_flat = tf.reshape(self.h_pool, [-1, num_filters_total])
+
+#3.½øĞĞdropout
+		# Add dropout
+		with tf.name_scope("dropout"):
+			self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob)
+
+#4.È«Á¬½Ó²ã£¨output£©
+		# Final (unnormalized) scores and predictions
+		with tf.name_scope("output"):
+			W = tf.get_variable(
+				"W",
+				shape=[num_filters_total, self.num_classes],
+				initializer=tf.contrib.layers.xavier_initializer())
+			b = tf.Variable(tf.constant(0.1, shape=[self.num_classes]), name="b")
+			'''
+			l2_loss += tf.nn.l2_loss(W)
+			l2_loss += tf.nn.l2_loss(b)
+			'''
+			self.scores = tf.nn.xw_plus_b(self.h_drop, W, b, name="scores")
+			self.predictions = tf.argmax(self.scores, 1, name="predictions")
+
+		return self.scores
+
+
+
+
+
 
 
 def gelu(x):

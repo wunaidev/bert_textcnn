@@ -346,7 +346,7 @@ class BertTextcnn(BertModel):
 			self.scores = tf.nn.xw_plus_b(self.h_drop, W, b, name="scores")
 			self.predictions = tf.argmax(self.scores, 1, name="predictions")
 
-		return self.logits
+		return self.scores
 
 
 def gelu(x):

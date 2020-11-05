@@ -336,7 +336,7 @@ class BertTextcnn(BertModel):
 		with tf.name_scope("output"):
 			W = tf.get_variable(
 				"W",
-				shape=[num_filters_total, self.num_classes],
+				shape=[num_filters_total + self.config.hidden_size, self.num_classes],
 				initializer=tf.contrib.layers.xavier_initializer())
 			b = tf.Variable(tf.constant(0.1, shape=[self.num_classes]), name="b")
 			'''

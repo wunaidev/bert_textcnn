@@ -25,6 +25,9 @@ import modeling2 as modeling
 import optimization
 import tokenization
 import tensorflow as tf
+import random, os
+import numpy as np
+
 
 flags = tf.flags
 

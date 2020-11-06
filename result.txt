@@ -66,6 +66,12 @@ INFO:tensorflow:	eval_loss = 0.38060632
 INFO:tensorflow:	global_step = 343
 INFO:tensorflow:	loss = 0.38060632
 
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.86764705
+INFO:tensorflow:	eval_loss = 0.36504677
+INFO:tensorflow:	global_step = 343
+INFO:tensorflow:	loss = 0.36504677
+
 
 *************bert-large**************
 

@@ -123,6 +123,9 @@ flags.DEFINE_integer(
 		"num_tpu_cores", 8,
 		"Only used if `use_tpu` is True. Total number of TPU cores to use.")
 
+flags.DEFINE_integer('seed',42,
+		"random seed for initialization")
+
 
 class InputExample(object):
 	"""A single training/test example for simple sequence classification."""
@@ -782,6 +785,14 @@ def convert_examples_to_features(examples, label_list, max_seq_length,
 
 def main(_):
 	tf.logging.set_verbosity(tf.logging.INFO)
+
+	#init spec seed
+	SEED = FLAGS.seed
+	os.environ['PYTHONHASHSEED']=str(SEED)
+	os.environ['TF_CUDNN_DETERMINISTIC'] = '1'  # new flag present in tf 2.0+
+	random.seed(SEED)
+	np.random.seed(SEED)
+	tf.set_random_seed(SEED)
 
 	processors = {
 			"cola": ColaProcessor,

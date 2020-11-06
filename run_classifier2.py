@@ -791,11 +791,14 @@ def main(_):
 
 	#init spec seed
 	SEED = FLAGS.seed
+	tf.reset_default_graph()
 	os.environ['PYTHONHASHSEED']=str(SEED)
 	os.environ['TF_CUDNN_DETERMINISTIC'] = '1'  # new flag present in tf 2.0+
 	random.seed(SEED)
 	np.random.seed(SEED)
 	tf.set_random_seed(SEED)
+
+	print("***using random seed:{}***".format(SEED))
 
 	processors = {
 			"cola": ColaProcessor,

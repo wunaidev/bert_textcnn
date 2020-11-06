@@ -43,6 +43,8 @@ INFO:tensorflow:	global_step = 343
 INFO:tensorflow:	loss = 0.3853816
 
 
+
+
 _______change textcnn lr=2e-5 batchsize=8______
 INFO:tensorflow:***** Eval results *****
 INFO:tensorflow:	eval_accuracy = 0.8627451
@@ -50,6 +52,19 @@ INFO:tensorflow:	eval_loss = 0.5549337
 INFO:tensorflow:	global_step = 1375
 INFO:tensorflow:	loss = 0.5549337
 
+
+_______change textcnn lr=2e-5 batchsize=32______seed=0
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:        eval_accuracy = 0.87009805
+INFO:tensorflow:        eval_loss = 0.38277534
+INFO:tensorflow:        global_step = 343
+INFO:tensorflow:        loss = 0.38277534
+
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.85784316
+INFO:tensorflow:	eval_loss = 0.38060632
+INFO:tensorflow:	global_step = 343
+INFO:tensorflow:	loss = 0.38060632
 
 
 *************bert-large**************

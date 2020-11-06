@@ -42,7 +42,8 @@ class BertConfig(object):
 							 attention_probs_dropout_prob=0.1,
 							 max_position_embeddings=512,
 							 type_vocab_size=16,
-							 initializer_range=0.02):
+							 initializer_range=0.02,
+							 random_seed=0):
 		"""Constructs BertConfig.
 
 		Args:
@@ -78,6 +79,7 @@ class BertConfig(object):
 		self.max_position_embeddings = max_position_embeddings
 		self.type_vocab_size = type_vocab_size
 		self.initializer_range = initializer_range
+		self.random_seed = random_seed
 
 	@classmethod
 	def from_dict(cls, json_object):
@@ -296,7 +298,7 @@ class BertTextcnn(BertModel):
 			with tf.name_scope("conv-maxpool-%s" % filter_size):
 				# Convolution Layer
 				filter_shape = [filter_size, self.config.hidden_size, 1, self.num_filters]
-				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1), name="W")
+				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1, seed=0), name="W")
 				b = tf.Variable(tf.constant(0.1, shape=[self.num_filters]), name="b")
 				conv = tf.nn.conv2d(
 					self.embedded_chars_expanded,
@@ -337,7 +339,7 @@ class BertTextcnn(BertModel):
 			W = tf.get_variable(
 				"W",
 				shape=[num_filters_total + self.config.hidden_size, self.num_classes],
-				initializer=tf.contrib.layers.xavier_initializer())
+				initializer=tf.contrib.layers.xavier_initializer(seed=0))
 			b = tf.Variable(tf.constant(0.1, shape=[self.num_classes]), name="b")
 			'''
 			l2_loss += tf.nn.l2_loss(W)
@@ -462,7 +464,7 @@ def layer_norm_and_dropout(input_tensor, dropout_prob, name=None):
 
 def create_initializer(initializer_range=0.02):
 	"""Creates a `truncated_normal_initializer` with the given range."""
-	return tf.truncated_normal_initializer(stddev=initializer_range)
+	return tf.truncated_normal_initializer(stddev=initializer_range, seed=0)
 
 
 def embedding_lookup(input_ids,

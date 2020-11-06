@@ -6,7 +6,7 @@ cd bert_textcnn
 wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
 unzip uncased_L-12_H-768_A-12.zip
 
-python3 download_glue_data.py --data_dir glue_data --tasks all
+python3 download_glue_data.py --data_dir glue_data --tasks mrpc
 
 export BERT_BASE_DIR=/root/bert_textcnn/uncased_L-12_H-768_A-12
 export GLUE_DIR=/root/bert_textcnn/glue_data
@@ -24,7 +24,8 @@ python3 run_classifier2.py \
   --train_batch_size=32 \
   --learning_rate=2e-5 \
   --num_train_epochs=3.0 \
-  --output_dir=/tmp/mrpc_output3/
+  --output_dir=/tmp/mrpc_output/ \
+  --seed=0
 
 
 python3 run_classifier.py \

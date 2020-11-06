@@ -73,6 +73,23 @@ INFO:tensorflow:	global_step = 343
 INFO:tensorflow:	loss = 0.36504677
 
 
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.86519605
+INFO:tensorflow:	eval_loss = 0.36273476
+INFO:tensorflow:	global_step = 343
+INFO:tensorflow:	loss = 0.36273476
+
+
+_______bert lr=2e-5 batchsize=32______seed=42
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.8504902
+INFO:tensorflow:	eval_loss = 0.49729303
+INFO:tensorflow:	global_step = 343
+INFO:tensorflow:	loss = 0.49729303
+
+
+
+
 *************bert-large**************
 
 bert

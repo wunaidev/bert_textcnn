@@ -599,10 +599,10 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 
 	output_weights = tf.get_variable(
 			"output_weights", [num_labels, hidden_size],
-			initializer=tf.truncated_normal_initializer(stddev=0.02, seed=SEED))
+			initializer=tf.truncated_normal_initializer(stddev=0.02, seed=bert_config.random_seed))
 
 	output_bias = tf.get_variable(
-			"output_bias", [num_labels], initializer=tf.zeros_initializer(seed=SEED))
+			"output_bias", [num_labels], initializer=tf.zeros_initializer(seed=bert_config.random_seed))
 
 	with tf.variable_scope("loss"):
 		if is_training:

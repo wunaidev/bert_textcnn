@@ -1077,6 +1077,15 @@ def assert_rank(tensor, expected_rank, name=None):
 
 
 if __name__ == "__main__":
+	import os, random
+	SEED = 0
+	tf.reset_default_graph()
+	os.environ['PYTHONHASHSEED']=str(SEED)
+	os.environ['TF_CUDNN_DETERMINISTIC'] = '1'  # new flag present in tf 2.0+
+	random.seed(SEED)
+	np.random.seed(SEED)
+	tf.set_random_seed(SEED)
+
 	input_ids = tf.constant([[31, 51, 99, 42, 41, 55], [15, 5, 0, 51, 99, 42]])
 	input_mask = tf.constant([[1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 0]])
 	token_type_ids = tf.constant([[0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 2, 0]])

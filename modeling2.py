@@ -331,7 +331,8 @@ class BertTextcnn(BertModel):
 #3.进行dropout
 		# Add dropout
 		with tf.name_scope("dropout"):
-			self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob)
+			#self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob, seed=self.config.random_seed)
+			self.h_drop = dropout(self.h_pool_flat, 1.0 - self.dropout_keep_prob)
 
 #4.全连接层（output）
 		# Final (unnormalized) scores and predictions
@@ -445,7 +446,7 @@ def dropout(input_tensor, dropout_prob):
 	if dropout_prob is None or dropout_prob == 0.0:
 		return input_tensor
 
-	output = tf.nn.dropout(input_tensor, 1.0 - dropout_prob)
+	output = tf.nn.dropout(input_tensor, 1.0 - dropout_prob, seed=0)
 	return output
 
 

@@ -1092,6 +1092,7 @@ if __name__ == "__main__":
 	#label_embeddings = tf.get_variable(...)
 	pooled_output = model.get_cnn_output()
 	print(pooled_output)
+	bert_output = model.get_pooled_output()
 	with tf.Session() as sess:
 		sess.run(tf.global_variables_initializer())
-		print(sess.run(pooled_output))
+		print(sess.run(bert_output))

@@ -6,7 +6,7 @@ cd bert_textcnn
 wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
 unzip uncased_L-12_H-768_A-12.zip
 
-python3 download_glue_data.py --data_dir glue_data --tasks mrpc
+python3 download_glue_data.py --data_dir glue_data --tasks MRPC
 
 export BERT_BASE_DIR=/root/bert_textcnn/uncased_L-12_H-768_A-12
 export GLUE_DIR=/root/bert_textcnn/glue_data

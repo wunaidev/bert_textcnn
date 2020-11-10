@@ -107,18 +107,17 @@ INFO:tensorflow:	loss = 0.46545017
 
 
 INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:        eval_accuracy = 0.8112745
-INFO:tensorflow:        eval_loss = 0.47437832
-INFO:tensorflow:        global_step = 114
-INFO:tensorflow:        loss = 0.47437832
+INFO:tensorflow:	eval_accuracy = 0.8357843
+INFO:tensorflow:	eval_loss = 0.42293546
+INFO:tensorflow:	global_step = 458
+INFO:tensorflow:	loss = 0.42293546
 
 
 INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:        eval_accuracy = 0.78186274
-INFO:tensorflow:        eval_loss = 0.48357293
-INFO:tensorflow:        global_step = 114
-INFO:tensorflow:        loss = 0.48357293
-
+INFO:tensorflow:	eval_accuracy = 0.8088235
+INFO:tensorflow:	eval_loss = 0.45930806
+INFO:tensorflow:	global_step = 458
+INFO:tensorflow:	loss = 0.45930806
 
 
 

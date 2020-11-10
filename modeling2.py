@@ -1104,4 +1104,4 @@ if __name__ == "__main__":
 	bert_output = model.get_pooled_output()
 	with tf.Session() as sess:
 		sess.run(tf.global_variables_initializer())
-		print(sess.run(bert_output))
+		print(sess.run(pooled_output))

@@ -631,7 +631,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
 	def model_fn(features, labels, mode, params):	# pylint: disable=unused-argument
 		"""The `model_fn` for TPUEstimator."""
 
-		tf.logging.info("*** Features ***")
+		tf.logging.info("*** Features ***")`
 		for name in sorted(features.keys()):
 			tf.logging.info("	name = %s, shape = %s" % (name, features[name].shape))
 
@@ -724,7 +724,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
 
 # This function is not used by this file but is still used by the Colab and
 # people who depend on it.
-def input_fn_builder(features, seq_length, is_training, drop_remainder):
+def input_fn_builder(features, seq_length, is_training, drop_remainder, config):
 	"""Creates an `input_fn` closure to be passed to TPUEstimator."""
 
 	all_input_ids = []
@@ -738,7 +738,7 @@ def input_fn_builder(features, seq_length, is_training, drop_remainder):
 		all_segment_ids.append(feature.segment_ids)
 		all_label_ids.append(feature.label_id)
 
-	def input_fn(params):
+	def input_fn(params, config=config):
 		"""The actual input function."""
 		batch_size = params["batch_size"]
 
@@ -903,7 +903,8 @@ def main(_):
 				input_file=train_file,
 				seq_length=FLAGS.max_seq_length,
 				is_training=True,
-				drop_remainder=True)
+				drop_remainder=True,
+				config=tf.estimator.RunConfig(tf_random_seed=SEED))
 		estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
 
 	if FLAGS.do_eval:

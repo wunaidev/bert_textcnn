@@ -653,7 +653,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
 
 
 		print("*********************this is a test line**********************")
-		with tf.Session() as sess:
+			sess.run(tf.global_variables_initializer())
 			print(sess.run(input_ids))
 		print("*********************this is a test line end*********************")
 

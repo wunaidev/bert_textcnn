@@ -298,7 +298,7 @@ class BertTextcnn(BertModel):
 			with tf.name_scope("conv-maxpool-%s" % filter_size):
 				# Convolution Layer
 				filter_shape = [filter_size, self.config.hidden_size, 1, self.num_filters]
-				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1, seed=0), name="W")
+				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1, self.config.random_seed), name="W")
 				b = tf.Variable(tf.constant(0.1, shape=[self.num_filters]), name="b")
 				conv = tf.nn.conv2d(
 					self.embedded_chars_expanded,
@@ -330,8 +330,8 @@ class BertTextcnn(BertModel):
 	#3.进行dropout
 		# Add dropout
 		with tf.name_scope("dropout"):
-			#self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob, seed=self.config.random_seed)
-			self.h_drop = dropout(self.h_pool_flat, 1.0 - self.dropout_keep_prob)
+			self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob, seed=self.config.random_seed)
+			#self.h_drop = dropout(self.h_pool_flat, 1.0 - self.dropout_keep_prob)
 
 	#4.全连接层（output）
 		# Final (unnormalized) scores and predictions
@@ -339,7 +339,7 @@ class BertTextcnn(BertModel):
 			W = tf.get_variable(
 				"W",
 				shape=[num_filters_total + self.config.hidden_size, self.num_classes],
-				initializer=tf.contrib.layers.xavier_initializer())
+				initializer=tf.contrib.layers.xavier_initializer(self.config.random_seed))
 			b = tf.Variable(tf.constant(0.1, shape=[self.num_classes]), name="b")
 			'''
 			l2_loss += tf.nn.l2_loss(W)

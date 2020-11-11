@@ -631,7 +631,7 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
 	def model_fn(features, labels, mode, params):	# pylint: disable=unused-argument
 		"""The `model_fn` for TPUEstimator."""
 
-		tf.logging.info("*** Features ***")`
+		tf.logging.info("*** Features ***")
 		for name in sorted(features.keys()):
 			tf.logging.info("	name = %s, shape = %s" % (name, features[name].shape))
 
@@ -651,12 +651,6 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
 				bert_config, is_training, input_ids, input_mask, segment_ids, label_ids,
 				num_labels, use_one_hot_embeddings)
 
-
-		print("*********************this is a test line**********************")
-		with tf.Session() as sess:
-			sess.run(tf.global_variables_initializer())
-			print(sess.run(input_ids))
-		print("*********************this is a test line end*********************")
 
 		tvars = tf.trainable_variables()
 		initialized_variable_names = {}

@@ -538,7 +538,8 @@ def file_based_input_fn_builder(input_file, seq_length, is_training,
 
 		return example
 
-	def input_fn(params, config=config):
+	def input_fn(params):
+		#, config=config
 		"""The actual input function."""
 		batch_size = params["batch_size"]
 

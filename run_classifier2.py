@@ -555,10 +555,6 @@ def file_based_input_fn_builder(input_file, seq_length, is_training,
 						batch_size=batch_size,
 						drop_remainder=drop_remainder))
 
-		for data in d:
-			print("**************this is a test line********************")
-			print(data)
-
 		return d
 
 	return input_fn
@@ -584,6 +580,10 @@ def _truncate_seq_pair(tokens_a, tokens_b, max_length):
 def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 								 labels, num_labels, use_one_hot_embeddings):
 	"""Creates a classification model."""
+
+	print("*********************this is a test line**********************")
+	print(input_ids)
+	print("*********************this is a test line end*********************")
 	model = modeling.BertTextcnn(
 			config=bert_config,
 			is_training=is_training,

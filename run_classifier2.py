@@ -898,8 +898,8 @@ def main(_):
 				seq_length=FLAGS.max_seq_length,
 				is_training=True,
 				drop_remainder=True,
-				config=tf.estimator.RunConfig())
-				#tf_random_seed=SEED
+				)
+				#config=tf.estimator.RunConfig(tf_random_seed=SEED)
 		estimator.train(input_fn=train_input_fn, max_steps=num_train_steps)
 
 	if FLAGS.do_eval:

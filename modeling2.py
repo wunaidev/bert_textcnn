@@ -339,7 +339,7 @@ class BertTextcnn(BertModel):
 			W = tf.get_variable(
 				"W",
 				shape=[num_filters_total + self.config.hidden_size, self.num_classes],
-				initializer=tf.contrib.layers.xavier_initializer(seed=0))
+				initializer=tf.contrib.layers.xavier_initializer())
 			b = tf.Variable(tf.constant(0.1, shape=[self.num_classes]), name="b")
 			'''
 			l2_loss += tf.nn.l2_loss(W)
@@ -476,7 +476,7 @@ def dropout(input_tensor, dropout_prob):
 	if dropout_prob is None or dropout_prob == 0.0:
 		return input_tensor
 
-	output = tf.nn.dropout(input_tensor, 1.0 - dropout_prob, seed=0)
+	output = tf.nn.dropout(input_tensor, 1.0 - dropout_prob)
 	return output
 
 
@@ -495,7 +495,7 @@ def layer_norm_and_dropout(input_tensor, dropout_prob, name=None):
 
 def create_initializer(initializer_range=0.02):
 	"""Creates a `truncated_normal_initializer` with the given range."""
-	return tf.truncated_normal_initializer(stddev=initializer_range, seed=0)
+	return tf.truncated_normal_initializer(stddev=initializer_range)
 
 
 def embedding_lookup(input_ids,

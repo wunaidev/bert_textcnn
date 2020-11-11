@@ -298,7 +298,7 @@ class BertTextcnn(BertModel):
 			with tf.name_scope("conv-maxpool-%s" % filter_size):
 				# Convolution Layer
 				filter_shape = [filter_size, self.config.hidden_size, 1, self.num_filters]
-				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1, self.config.random_seed), name="W")
+				W = tf.Variable(tf.truncated_normal(filter_shape, stddev=0.1, seed=self.config.random_seed), name="W")
 				b = tf.Variable(tf.constant(0.1, shape=[self.num_filters]), name="b")
 				conv = tf.nn.conv2d(
 					self.embedded_chars_expanded,

@@ -513,7 +513,7 @@ def file_based_convert_examples_to_features(
 
 
 def file_based_input_fn_builder(input_file, seq_length, is_training,
-																drop_remainder):
+																drop_remainder, config=None):
 	"""Creates an `input_fn` closure to be passed to TPUEstimator."""
 
 	name_to_features = {
@@ -538,7 +538,7 @@ def file_based_input_fn_builder(input_file, seq_length, is_training,
 
 		return example
 
-	def input_fn(params):
+	def input_fn(params, config=config):
 		"""The actual input function."""
 		batch_size = params["batch_size"]
 

@@ -581,9 +581,6 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 								 labels, num_labels, use_one_hot_embeddings):
 	"""Creates a classification model."""
 
-	print("*********************this is a test line**********************")
-	print(input_ids)
-	print("*********************this is a test line end*********************")
 	model = modeling.BertTextcnn(
 			config=bert_config,
 			is_training=is_training,
@@ -653,6 +650,12 @@ def model_fn_builder(bert_config, num_labels, init_checkpoint, learning_rate,
 		(total_loss, per_example_loss, logits, probabilities) = create_model(
 				bert_config, is_training, input_ids, input_mask, segment_ids, label_ids,
 				num_labels, use_one_hot_embeddings)
+
+
+		print("*********************this is a test line**********************")
+		with tf.Session() as sess:
+			print(sess.run(input_ids))
+		print("*********************this is a test line end*********************")
 
 		tvars = tf.trainable_variables()
 		initialized_variable_names = {}

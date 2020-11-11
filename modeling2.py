@@ -308,7 +308,6 @@ class BertTextcnn(BertModel):
 					name="conv")
 				# Apply nonlinearity
 				h = tf.nn.relu(tf.nn.bias_add(conv, b), name="relu")
-				print(sequence_output.shape)
 				# Maxpooling over the outputs
 				pooled = tf.nn.max_pool(
 					h,
@@ -328,13 +327,13 @@ class BertTextcnn(BertModel):
 		self.h_pool_flat = tf.concat([self.h_pool_flat, self.pooled_output], axis=-1)
 		print("after_h_pool_flat:{}".format(self.h_pool_flat))
 
-#3.进行dropout
+	#3.进行dropout
 		# Add dropout
 		with tf.name_scope("dropout"):
 			#self.h_drop = tf.nn.dropout(self.h_pool_flat, self.dropout_keep_prob, seed=self.config.random_seed)
 			self.h_drop = dropout(self.h_pool_flat, 1.0 - self.dropout_keep_prob)
 
-#4.全连接层（output）
+	#4.全连接层（output）
 		# Final (unnormalized) scores and predictions
 		with tf.name_scope("output"):
 			W = tf.get_variable(
@@ -350,6 +349,38 @@ class BertTextcnn(BertModel):
 			self.predictions = tf.argmax(self.scores, 1, name="predictions")
 
 		return self.scores
+
+	#for test
+	def get_model_output(self):
+		num_labels=4
+		# In the demo, we are doing a simple classification task on the entire
+		# segment.
+		#
+		# If you want to use the token-level output, use model.get_sequence_output()
+		# instead.
+		output_layer = model.get_cnn_output()
+
+		hidden_size = output_layer.shape[-1].value
+
+		output_weights = tf.get_variable(
+				"output_weights", [num_labels, hidden_size],
+				initializer=tf.truncated_normal_initializer(stddev=0.02, seed=self.bert_config.random_seed))
+
+		output_bias = tf.get_variable(
+				"output_bias", [num_labels], initializer=tf.zeros_initializer())
+
+		with tf.variable_scope("loss"):
+			if is_training:
+				# I.e., 0.1 dropout
+				output_layer = tf.nn.dropout(output_layer, keep_prob=0.9, seed=self.bert_config.random_seed)
+
+			logits = tf.matmul(output_layer, output_weights, transpose_b=True)
+			logits = tf.nn.bias_add(logits, output_bias)
+			probabilities = tf.nn.softmax(logits, axis=-1)
+			log_probs = tf.nn.log_softmax(logits, axis=-1)
+
+			return logits
+
 
 
 def gelu(x):
@@ -1100,9 +1131,7 @@ if __name__ == "__main__":
 	model = BertTextcnn(config=config, is_training=True, input_ids=input_ids, input_mask=input_mask, token_type_ids=token_type_ids)
 
 	#label_embeddings = tf.get_variable(...)
-	pooled_output = model.get_cnn_output()
-	print(pooled_output)
-	bert_output = model.get_pooled_output()
+	bert_output = model.get_model_output()
 	with tf.Session() as sess:
 		sess.run(tf.global_variables_initializer())
 		print(sess.run(pooled_output))

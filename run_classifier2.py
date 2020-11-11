@@ -555,6 +555,10 @@ def file_based_input_fn_builder(input_file, seq_length, is_training,
 						batch_size=batch_size,
 						drop_remainder=drop_remainder))
 
+		for data in d:
+			print("**************this is a test line********************")
+			print(data)
+
 		return d
 
 	return input_fn
@@ -840,6 +844,8 @@ def main(_):
 	if FLAGS.use_tpu and FLAGS.tpu_name:
 		tpu_cluster_resolver = tf.contrib.cluster_resolver.TPUClusterResolver(
 				FLAGS.tpu_name, zone=FLAGS.tpu_zone, project=FLAGS.gcp_project)
+
+
 
 	is_per_host = tf.contrib.tpu.InputPipelineConfig.PER_HOST_V2
 	run_config = tf.contrib.tpu.RunConfig(

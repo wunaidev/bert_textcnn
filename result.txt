@@ -107,44 +107,21 @@ INFO:tensorflow:	loss = 0.46545017
 
 
 INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:	eval_accuracy = 0.6838235
-INFO:tensorflow:	eval_loss = 0.6184149
+INFO:tensorflow:	eval_accuracy = 0.6960784
+INFO:tensorflow:	eval_loss = 0.60344034
 INFO:tensorflow:	global_step = 45
-INFO:tensorflow:	loss = 0.6184149
+INFO:tensorflow:	loss = 0.60344034
 
 
-INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:	eval_accuracy = 0.6838235
-INFO:tensorflow:	eval_loss = 0.6165195
-INFO:tensorflow:	global_step = 45
-INFO:tensorflow:	loss = 0.6165195
 
 
-INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:	eval_accuracy = 0.6838235
-INFO:tensorflow:	eval_loss = 0.61764854
-INFO:tensorflow:	global_step = 45
-INFO:tensorflow:	loss = 0.61764854
 
 
-INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:	eval_accuracy = 0.6838235
-INFO:tensorflow:	eval_loss = 0.61196744
-INFO:tensorflow:	global_step = 45
-INFO:tensorflow:	loss = 0.61196744
 
 
-INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:	eval_accuracy = 0.6838235
-INFO:tensorflow:	eval_loss = 0.61307
-INFO:tensorflow:	global_step = 45
-INFO:tensorflow:	loss = 0.61307
 
 
-INFO:tensorflow:***** Eval results *****
-INFO:tensorflow:	eval_accuracy = 0.7083333
-INFO:tensorflow:	eval_loss = 0.6062424
-INFO:tensorflow:	global_step = 45
+
 
 
 

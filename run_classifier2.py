@@ -818,6 +818,7 @@ def main(_):
 				"At least one of `do_train`, `do_eval` or `do_predict' must be True.")
 
 	bert_config = modeling.BertConfig.from_json_file(FLAGS.bert_config_file)
+	bert_config.random_seed = SEED
 
 	if FLAGS.max_seq_length > bert_config.max_position_embeddings:
 		raise ValueError(

@@ -297,7 +297,7 @@ class BertCapsule(BertModel):
 		self.embedded_chars_expanded = tf.expand_dims(self.sequence_output, -1)
 
 		with tf.variable_scope('Conv1_layer'):
-			conv1 = tf.layers.conv1d(embed, filters=64, kernel_size=3, strides=1, padding='VALID')
+			conv1 = tf.layers.conv1d(sequence_output, filters=64, kernel_size=3, strides=1, padding='VALID')
 
 		with tf.variable_scope('First_caps_layer'):
 			firstCaps = CapsLayer(num_outputs=16, vec_len=8, layer_type='CONV', with_routing=False)

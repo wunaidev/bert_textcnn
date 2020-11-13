@@ -39,7 +39,7 @@ class CapsLayer():
 
 				with tf.variable_scope('routing'):
 					b_IJ = tf.constant(np.zeros([self.bz, input.shape[1].value, self.num_outputs, 1, 1], dtype=np.float32))
-					print("input.shape[1].value: {}_____________".format(input.shape[1].value))
+					#  (input.shape[1].value)µÄÖµÊÇmax_seq_len * 16
 					capsules = routing(self.input, b_IJ, max_seq_len_mul_16=input.shape[1].value, bz=self.bz)
 					capsules = tf.squeeze(capsules, axis=1)
 
@@ -75,7 +75,7 @@ def routing(input, b_IJ, max_seq_len_mul_16, bz=8):
 				s_J = tf.reduce_sum(s_J, axis=1, keep_dims=True) + biases
 				v_J = squash(s_J)
 
-				v_J_tiled = tf.tile(v_J, [1,1152,1,1,1])   #*
+				v_J_tiled = tf.tile(v_J, [1,max_seq_len_mul_16,1,1,1])   #*
 				u_produce_v = tf.matmul(u_hat_stopped, v_J_tiled, transpose_a=True)
 
 				b_IJ += u_produce_v

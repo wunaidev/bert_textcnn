@@ -25,6 +25,7 @@ class CapsLayer():
 				capsules = tf.layers.conv1d(input, filters=self.num_outputs * self.vec_len,
 											kernel_size=self.kernel_size, strides=self.stride, padding='VALID',
 											activation=tf.nn.relu)
+				print("conv capsule shape: {}".format(capsules.shape))
 				capsules = tf.reshape(capsules, (self.bz, -1, self.vec_len, 1))
 				capsules = squash(capsules)
 

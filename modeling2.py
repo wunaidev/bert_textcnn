@@ -28,6 +28,7 @@ import six
 import tensorflow as tf
 
 from capsnet.capsLayer import CapsLayer
+from tensorflow.contrib import rnn
 
 
 class BertConfig(object):

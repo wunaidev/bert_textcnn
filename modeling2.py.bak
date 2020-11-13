@@ -265,7 +265,6 @@ class BertModel(object):
 		return self.embedding_table
 
 
-#seqlen得是8的整数倍 + 3，因为两次VALID卷积使计算图减小了3，结果要能被8整除
 class BertCapsule(BertModel):
 	def __init__(self,
 			   config,

@@ -277,7 +277,7 @@ class BertCapsule(BertModel):
 			   num_filters=128, 
 			   dropout_keep_prob=1.0,
 			   num_classes=4):
-		super(BertTextcnn, self).__init__(config,
+		super(BertCapsule, self).__init__(config,
 			   is_training,
 			   input_ids,
 			   input_mask=input_mask,

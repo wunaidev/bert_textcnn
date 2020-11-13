@@ -289,7 +289,7 @@ class BertCapsule(BertModel):
 		self.dropout_keep_prob = dropout_keep_prob
 		self.num_classes=num_classes
 		self.config = config
-		from capsLayer import capsLayer
+		from capsnet.capsLayer import capsLayer
 
 	def get_cnn_output(self):
 		sequence_output = self.sequence_output
@@ -301,11 +301,11 @@ class BertCapsule(BertModel):
 			conv1 = tf.layers.conv1d(sequence_output, filters=64, kernel_size=3, strides=1, padding='VALID')
 
 		with tf.variable_scope('First_caps_layer'):
-			firstCaps = CapsLayer(num_outputs=16, vec_len=8, layer_type='CONV', with_routing=False)
+			firstCaps = CapsLayer(num_outputs=16, vec_len=8, layer_type='CONV', with_routing=False, bz=batch_size)
 			caps1 = firstCaps(conv1, kernel_size=2, stride=1)
 
 		with tf.variable_scope('Second_caps_layer'):
-			secondCaps = CapsLayer(num_outputs=4, vec_len=8, layer_type='FC', with_routing=True)
+			secondCaps = CapsLayer(num_outputs=4, vec_len=8, layer_type='FC', with_routing=True, bz=batch_size)
 			self.caps2 = secondCaps(caps1, kernel_size=3, stride=1)
 
 		with tf.variable_scope('LSTM_layer'):

@@ -1192,7 +1192,8 @@ if __name__ == "__main__":
 	model = BertCapsule(config=config, is_training=True, input_ids=input_ids, input_mask=input_mask, token_type_ids=token_type_ids)
 
 	#label_embeddings = tf.get_variable(...)
-	bert_output = model.get_model_output()
+	#bert_output = model.get_model_output()
+	bert_output = model.get_cnn_output()
 	with tf.Session() as sess:
 		sess.run(tf.global_variables_initializer())
 		print(sess.run(bert_output))

@@ -296,6 +296,7 @@ class BertCapsule(BertModel):
 	def get_cnn_output(self):
 		sequence_output = self.sequence_output
 		batch_size = sequence_output.shape[0]
+		print("_____________ sequence_output shape:{} ____________".format(sequence_output.shape))
 		print("_____________ batch_size value:{} ____________".format(batch_size))
 		self.embedded_chars_expanded = tf.expand_dims(self.sequence_output, -1)
 

@@ -302,11 +302,13 @@ class BertCapsule(BertModel):
 		with tf.variable_scope('Conv1_layer'):
 			conv1 = tf.layers.conv1d(sequence_output, filters=64, kernel_size=3, strides=1, padding='VALID')
 
-		print("conv1 shape: {}".format(conv1.shape))
+		print("_________conv1 shape: {} ___________".format(conv1.shape))
 
 		with tf.variable_scope('First_caps_layer'):
 			firstCaps = CapsLayer(num_outputs=16, vec_len=8, layer_type='CONV', with_routing=False, bz=batch_size)
 			caps1 = firstCaps(conv1, kernel_size=2, stride=1)
+
+		print("_________caps1 shape: {} ___________".format(caps1.shape))
 
 		with tf.variable_scope('Second_caps_layer'):
 			secondCaps = CapsLayer(num_outputs=4, vec_len=8, layer_type='FC', with_routing=True, bz=batch_size)

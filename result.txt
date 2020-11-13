@@ -114,8 +114,18 @@ INFO:tensorflow:	loss = 0.60344034
 
 
 
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.7230392
+INFO:tensorflow:	eval_loss = 0.54948044
+INFO:tensorflow:	global_step = 229
+INFO:tensorflow:	loss = 0.54948044
 
 
+INFO:tensorflow:***** Eval results *****
+INFO:tensorflow:	eval_accuracy = 0.70098037
+INFO:tensorflow:	eval_loss = 0.5485483
+INFO:tensorflow:	global_step = 229
+INFO:tensorflow:	loss = 0.5485483
 
 
 

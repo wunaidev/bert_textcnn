@@ -263,6 +263,68 @@ class BertModel(object):
 		return self.embedding_table
 
 
+class BertCapsule(BertModel):
+	def __init__(self,
+			   config,
+			   is_training,
+			   input_ids,
+			   input_mask=None,
+			   token_type_ids=None,
+			   use_one_hot_embeddings=False,
+			   scope=None,
+			   #TextCNN paramters
+			   filter_sizes=(3,4,5),
+			   num_filters=128, 
+			   dropout_keep_prob=1.0,
+			   num_classes=4):
+		super(BertTextcnn, self).__init__(config,
+			   is_training,
+			   input_ids,
+			   input_mask=input_mask,
+			   token_type_ids=token_type_ids,
+			   use_one_hot_embeddings=use_one_hot_embeddings,
+			   scope=scope)
+		self.filter_sizes = filter_sizes
+		self.num_filters = num_filters
+		self.dropout_keep_prob = dropout_keep_prob
+		self.num_classes=num_classes
+		self.config = config
+
+	def get_cnn_output(self):
+		sequence_output = self.sequence_output
+		batch_size = sequence_output.shape[0]
+		print("_____________ batch_size value:{} ____________".format(batch_size))
+		self.embedded_chars_expanded = tf.expand_dims(self.sequence_output, -1)
+
+		with tf.variable_scope('Conv1_layer'):
+			conv1 = tf.layers.conv1d(embed, filters=64, kernel_size=3, strides=1, padding='VALID')
+
+		with tf.variable_scope('First_caps_layer'):
+			firstCaps = CapsLayer(num_outputs=16, vec_len=8, layer_type='CONV', with_routing=False)
+			caps1 = firstCaps(conv1, kernel_size=2, stride=1)
+
+		with tf.variable_scope('Second_caps_layer'):
+			secondCaps = CapsLayer(num_outputs=4, vec_len=8, layer_type='FC', with_routing=True)
+			self.caps2 = secondCaps(caps1, kernel_size=3, stride=1)
+
+		with tf.variable_scope('LSTM_layer'):
+			caps2_reshape = tf.reshape(self.caps2, [batch_size, 4, -1])
+			caps2_unstack = tf.unstack(caps2_reshape, 4, 1)
+			W = tf.Variable(tf.random_normal([32, 4]))
+			b = tf.Variable(tf.random_normal([4]))
+			lstm_layer = rnn.BasicLSTMCell(32, forget_bias=1)
+			outputs, _ = rnn.static_rnn(lstm_layer, caps2_unstack, dtype='float32')
+			self.prediction = tf.matmul(outputs[-1], W) + b
+
+		#========================================
+
+		with tf.variable_scope('Out'):
+			self.v_j = tf.sqrt(tf.reduce_sum(tf.square(self.caps2), axis=2, keep_dims=True) + epsilon)
+
+		#========================================
+		return self.prediction
+
+
 class BertTextcnn(BertModel):
 	def __init__(self,
 			   config,
@@ -1127,7 +1189,7 @@ if __name__ == "__main__":
 	model = BertModel(config=config, is_training=True,
 	input_ids=input_ids, input_mask=input_mask, token_type_ids=token_type_ids)
 	'''
-	model = BertTextcnn(config=config, is_training=True, input_ids=input_ids, input_mask=input_mask, token_type_ids=token_type_ids)
+	model = BertCapsule(config=config, is_training=True, input_ids=input_ids, input_mask=input_mask, token_type_ids=token_type_ids)
 
 	#label_embeddings = tf.get_variable(...)
 	bert_output = model.get_model_output()

@@ -582,6 +582,7 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 								 labels, num_labels, use_one_hot_embeddings):
 	"""Creates a classification model."""
 
+	'''
 	model = modeling.BertTextcnn(
 			config=bert_config,
 			is_training=is_training,
@@ -589,6 +590,15 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 			input_mask=input_mask,
 			token_type_ids=segment_ids,
 			use_one_hot_embeddings=use_one_hot_embeddings)
+	'''
+	#BertCapsule
+	model = modeling.BertCapsule(
+		config=bert_config,
+		is_training=is_training,
+		input_ids=input_ids,
+		input_mask=input_mask,
+		token_type_ids=segment_ids,
+		use_one_hot_embeddings=use_one_hot_embeddings)
 
 	# In the demo, we are doing a simple classification task on the entire
 	# segment.

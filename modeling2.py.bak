@@ -289,6 +289,7 @@ class BertCapsule(BertModel):
 		self.dropout_keep_prob = dropout_keep_prob
 		self.num_classes=num_classes
 		self.config = config
+		from capsnet.capsLayer import capsLayer
 
 	def get_cnn_output(self):
 		sequence_output = self.sequence_output

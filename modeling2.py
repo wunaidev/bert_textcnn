@@ -295,6 +295,8 @@ class BertCapsule(BertModel):
 
 
 	def get_cnn_output(self):
+		epsilon = 1e-9
+
 		sequence_output = self.sequence_output
 		batch_size = sequence_output.shape[0]
 		print("_____________ sequence_output shape:{} ____________".format(sequence_output.shape))

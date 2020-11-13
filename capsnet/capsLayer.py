@@ -39,14 +39,14 @@ class CapsLayer():
 
 				with tf.variable_scope('routing'):
 					b_IJ = tf.constant(np.zeros([self.bz, input.shape[1].value, self.num_outputs, 1, 1], dtype=np.float32))
-					capsules = routing(self.input, b_IJ, bz=self.bz)
+					capsules = routing(self.input, b_IJ, max_seq_len=input.shape[1].value, bz=self.bz)
 					capsules = tf.squeeze(capsules, axis=1)
 
 			return capsules
 
 
-def routing(input, b_IJ, bz=8):
-	W = tf.get_variable('Weight', shape=(1,1152,4,8,16), dtype=tf.float32,     # * **
+def routing(input, b_IJ, max_seq_len=72, bz=8):
+	W = tf.get_variable('Weight', shape=(1,max_seq_len*16,4,8,16), dtype=tf.float32,     # * **
 						initializer=tf.random_normal_initializer(stddev=0.01))
 	biases = tf.get_variable('bias', shape=(1,1,1,16,1))
 

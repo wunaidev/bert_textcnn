@@ -265,6 +265,7 @@ class BertModel(object):
 		return self.embedding_table
 
 
+#seqlen得是8的整数倍 + 3，因为两次VALID卷积使计算图减小了3，结果要能被8整除
 class BertCapsule(BertModel):
 	def __init__(self,
 			   config,
@@ -296,6 +297,7 @@ class BertCapsule(BertModel):
 	def get_cnn_output(self):
 		sequence_output = self.sequence_output
 		batch_size = sequence_output.shape[0]
+		print("_____________ sequence_output shape:{} ____________".format(sequence_output.shape))
 		print("_____________ batch_size value:{} ____________".format(batch_size))
 		self.embedded_chars_expanded = tf.expand_dims(self.sequence_output, -1)
 

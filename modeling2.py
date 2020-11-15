@@ -1182,7 +1182,7 @@ def assert_rank(tensor, expected_rank, name=None):
 
 if __name__ == "__main__":
 	import os, random
-	SEED = 0
+	SEED = 1
 	tf.reset_default_graph()
 	os.environ['PYTHONHASHSEED']=str(SEED)
 	os.environ['TF_CUDNN_DETERMINISTIC'] = '1'  # new flag present in tf 2.0+

@@ -8,13 +8,14 @@ unzip uncased_L-12_H-768_A-12.zip
 
 python3 download_glue_data.py --data_dir glue_data --tasks MRPC
 
+pip3 uninstall -y tensorflow-gpu
+pip3 uninstall -y tensorflow
+pip3 install tensorflow-gpu==1.13.1
+
+
 export BERT_BASE_DIR=/root/bert_textcnn/uncased_L-12_H-768_A-12
 export GLUE_DIR=/root/bert_textcnn/glue_data
 
-
-pip uninstall -y tensorflow-gpu
-pip uninstall -y tensorflow
-pip install tensorflow-gpu==1.13.1
 
 python3 run_classifier2.py \
   --task_name=MRPC \
@@ -27,7 +28,7 @@ python3 run_classifier2.py \
   --max_seq_length=128 \
   --train_batch_size=8 \
   --learning_rate=2e-5 \
-  --num_train_epochs=0.5 \
+  --num_train_epochs=3.0 \
   --output_dir=/tmp/mrpc_output/ \
   --seed=0
 

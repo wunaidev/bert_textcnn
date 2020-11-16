@@ -592,7 +592,7 @@ def create_model(bert_config, is_training, input_ids, input_mask, segment_ids,
 			use_one_hot_embeddings=use_one_hot_embeddings)
 	'''
 	#BertCapsule
-	model = modeling.BertTextcnn(
+	model = modeling.BertCapsule(
 		config=bert_config,
 		is_training=is_training,
 		input_ids=input_ids,

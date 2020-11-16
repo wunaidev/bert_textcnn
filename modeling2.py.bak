@@ -167,6 +167,8 @@ class BertModel(object):
 		batch_size = input_shape[0]
 		seq_length = input_shape[1]
 
+		self.batch_size = batch_size
+
 		if input_mask is None:
 			input_mask = tf.ones(shape=[batch_size, seq_length], dtype=tf.int32)
 
@@ -1182,7 +1184,7 @@ def assert_rank(tensor, expected_rank, name=None):
 
 if __name__ == "__main__":
 	import os, random
-	SEED = 0
+	SEED = 1
 	tf.reset_default_graph()
 	os.environ['PYTHONHASHSEED']=str(SEED)
 	os.environ['TF_CUDNN_DETERMINISTIC'] = '1'  # new flag present in tf 2.0+

@@ -167,6 +167,8 @@ class BertModel(object):
 		batch_size = input_shape[0]
 		seq_length = input_shape[1]
 
+		self.batch_size = batch_size
+
 		if input_mask is None:
 			input_mask = tf.ones(shape=[batch_size, seq_length], dtype=tf.int32)
 
@@ -298,7 +300,7 @@ class BertCapsule(BertModel):
 		epsilon = 1e-9
 
 		sequence_output = self.sequence_output
-		batch_size = sequence_output.shape[0]
+
 		print("_____________ sequence_output shape:{} ____________".format(sequence_output.shape))
 		print("_____________ batch_size value:{} ____________".format(batch_size))
 		self.embedded_chars_expanded = tf.expand_dims(self.sequence_output, -1)
@@ -309,7 +311,7 @@ class BertCapsule(BertModel):
 		print("_________conv1 shape: {} ___________".format(conv1.shape))
 
 		with tf.variable_scope('First_caps_layer'):
-			firstCaps = CapsLayer(num_outputs=16, vec_len=8, layer_type='CONV', with_routing=False, bz=batch_size)
+			firstCaps = CapsLayer(num_outputs=16, vec_len=8, layer_type='CONV', with_routing=False, bz=self.batch_size)
 			caps1 = firstCaps(conv1, kernel_size=2, stride=1)
 
 		print("_________caps1 shape: {} ___________".format(caps1.shape))

@@ -1,5 +1,10 @@
 *************bert-base**************
 
+pip3 uninstall -y tensorflow-gpu
+pip3 uninstall -y tensorflow
+pip3 install tensorflow-gpu==1.13.1
+
+
 git clone https://github.com/wunaidev/bert_textcnn.git
 cd bert_textcnn
 
@@ -7,11 +12,6 @@ wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-
 unzip uncased_L-12_H-768_A-12.zip
 
 python3 download_glue_data.py --data_dir glue_data --tasks MRPC
-
-pip3 uninstall -y tensorflow-gpu
-pip3 uninstall -y tensorflow
-pip3 install tensorflow-gpu==1.13.1
-
 
 export BERT_BASE_DIR=/root/bert_textcnn/uncased_L-12_H-768_A-12
 export GLUE_DIR=/root/bert_textcnn/glue_data

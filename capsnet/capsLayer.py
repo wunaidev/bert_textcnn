@@ -26,6 +26,7 @@ class CapsLayer():
 											kernel_size=self.kernel_size, strides=self.stride, padding='VALID',
 											activation=tf.nn.relu)
 				print("conv capsule shape: {}".format(capsules.shape))
+				print("into turple shape: {}".format((self.bz, -1, self.vec_len, 1)))
 				capsules = tf.reshape(capsules, (self.bz, -1, self.vec_len, 1))
 				capsules = squash(capsules)
 

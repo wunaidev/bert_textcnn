@@ -40,7 +40,8 @@ class CapsLayer():
 
 				with tf.variable_scope('routing'):
 					print("b_IJ tensor shape: {}".format([self.bz, -1, self.num_outputs, 1, 1]))
-					b_IJ = tf.constant(np.zeros([self.bz, -1, self.num_outputs, 1, 1], dtype=np.float32))
+					#b_IJ = tf.constant(np.zeros([self.bz, -1, self.num_outputs, 1, 1], dtype=np.float32))
+					b_IJ = tf.constant(np.zeros([8, -1, self.num_outputs, 1, 1], dtype=np.float32))
 					#  (input.shape[1].value)µÄÖµÊÇmax_seq_len * 16
 					capsules = routing(self.input, b_IJ, max_seq_len_mul_16=input.shape[1].value, bz=self.bz)
 					capsules = tf.squeeze(capsules, axis=1)

@@ -393,17 +393,17 @@ class RaceProcessor(object):
 	def get_train_examples(self, data_dir):
 		"""Gets a collection of `InputExample`s for the train set."""
 		return self.read_examples(
-			os.path.join(data_dir, "RACE", "train"))
+				os.path.join(data_dir, "RACE", "train"))
 
 	def get_dev_examples(self, data_dir):
 		"""Gets a collection of `InputExample`s for the dev set."""
 		return self.read_examples(
-			os.path.join(data_dir, "RACE", "dev"))
+				os.path.join(data_dir, "RACE", "dev"))
 
 	def get_test_examples(self, data_dir):
 		"""Gets a collection of `InputExample`s for prediction."""
 		return self.read_examples(
-			os.path.join(data_dir, "RACE", "test"))
+				os.path.join(data_dir, "RACE", "test"))
 
 	def get_labels(self):
 		"""Gets the list of labels for this data set."""
@@ -434,31 +434,37 @@ class RaceProcessor(object):
 					context = self.process_text(cur_data["article"])
 
 					for i in range(len(answers)):
-					label = ord(answers[i]) - ord("A")
-					qa_list = []
+						label = ord(answers[i]) - ord("A")
+						qa_list = []
 
-					question = self.process_text(questions[i])
-					for j in range(4):
-						option = self.process_text(options[i][j])
+						question = self.process_text(questions[i])
+						for j in range(4):
+							option = self.process_text(options[i][j])
 
-						if "_" in question:
-						qa_cat = question.replace("_", option)
-						else:
-						qa_cat = " ".join([question, option])
+							if "_" in question:
+								qa_cat = question.replace("_", option)
+							else:
+								qa_cat = " ".join([question, option])
 
-						qa_list.append(qa_cat)
+							qa_list.append(qa_cat)
 
-					examples.append(
-						InputExample(
-							example_id=cur_data["id"],
-							context_sentence=context,
-							start_ending=None,
-							endings=[qa_list[0], qa_list[1], qa_list[2], qa_list[3]],
-							label=label
+						examples.append(
+								InputExample(
+										example_id=cur_data["id"],
+										context_sentence=context,
+										start_ending=None,
+										endings=[qa_list[0], qa_list[1], qa_list[2], qa_list[3]],
+										label=label
+								)
 						)
-					)
 
 		return examples
+
+
+
+
+
+
 
 
 def convert_single_example(ex_index, example, label_list, max_seq_length,

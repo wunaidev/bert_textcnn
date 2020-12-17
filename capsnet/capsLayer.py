@@ -26,8 +26,8 @@ class CapsLayer():
 											kernel_size=self.kernel_size, strides=self.stride, padding='VALID',
 											activation=tf.nn.relu)
 				print("conv capsule shape: {}".format(capsules.shape))
-				print("into turple shape: {}".format((self.bz, -1, self.vec_len, 1)))
 				capsules = tf.reshape(capsules, (self.bz, -1, self.vec_len, 1))
+				print("into turple shape: {}".format(capsules.shape))
 				capsules = squash(capsules)
 
 				return capsules
@@ -37,7 +37,7 @@ class CapsLayer():
 				# the DigitCaps layer, a fully connected layer
 				# Reshape the input into [batch_size, 1152, 1, 8, 1]
 				self.input = tf.reshape(input, shape=(self.bz, -1, 1, input.shape[-2].value, 1))
-				print("input tensor shape: {}".format([self.bz, -1, 1, input.shape[-2].value, 1]))
+				print("input tensor shape: {}".format(self.input.shape))
 
 				with tf.variable_scope('routing'):
 					print("b_IJ tensor shape: {}".format([self.bz, input.shape[1], self.num_outputs, 1, 1]))

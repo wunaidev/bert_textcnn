@@ -41,7 +41,7 @@ class CapsLayer():
 
 				with tf.variable_scope('routing'):
 					print("b_IJ tensor shape: {}".format([self.bz, input.shape[1], self.num_outputs, 1, 1]))
-					print("(input.shape[1].value) is :":{max_seq_len * 16}
+					print("(input.shape[1].value) is :".format(max_seq_len * 16))
 					#b_IJ = tf.constant(np.zeros([self.bz, input.shape[1].value, self.num_outputs, 1, 1], dtype=np.float32))
 					b_IJ = tf.constant(np.zeros([8, input.shape[1], self.num_outputs, 1, 1], dtype=np.float32))
 					#  (input.shape[1].value)µÄÖµÊÇmax_seq_len * 16

@@ -380,6 +380,87 @@ class ColaProcessor(DataProcessor):
 		return examples
 
 
+class RaceProcessor(object):
+	"""Processor for the RACE data set."""
+
+	def __init__(self, use_spm, do_lower_case, high_only, middle_only):
+		super(RaceProcessor, self).__init__()
+		self.use_spm = use_spm
+		self.do_lower_case = do_lower_case
+		self.high_only = high_only
+		self.middle_only = middle_only
+
+	def get_train_examples(self, data_dir):
+		"""Gets a collection of `InputExample`s for the train set."""
+		return self.read_examples(
+			os.path.join(data_dir, "RACE", "train"))
+
+	def get_dev_examples(self, data_dir):
+		"""Gets a collection of `InputExample`s for the dev set."""
+		return self.read_examples(
+			os.path.join(data_dir, "RACE", "dev"))
+
+	def get_test_examples(self, data_dir):
+		"""Gets a collection of `InputExample`s for prediction."""
+		return self.read_examples(
+			os.path.join(data_dir, "RACE", "test"))
+
+	def get_labels(self):
+		"""Gets the list of labels for this data set."""
+		return ["A", "B", "C", "D"]
+
+	def process_text(self, text):
+		if self.use_spm:
+			return tokenization.preprocess_text(text, lower=self.do_lower_case)
+		else:
+			return tokenization.convert_to_unicode(text)
+
+		def read_examples(self, data_dir):
+		"""Read examples from RACE json files."""
+		examples = []
+		for level in ["middle", "high"]:
+			if level == "middle" and self.high_only: continue
+			if level == "high" and self.middle_only: continue
+			cur_dir = os.path.join(data_dir, level)
+
+			cur_path = os.path.join(cur_dir, "all.txt")
+			with tf.gfile.Open(cur_path) as f:
+			for line in f:
+				cur_data = json.loads(line.strip())
+
+				answers = cur_data["answers"]
+				options = cur_data["options"]
+				questions = cur_data["questions"]
+				context = self.process_text(cur_data["article"])
+
+				for i in range(len(answers)):
+				label = ord(answers[i]) - ord("A")
+				qa_list = []
+
+				question = self.process_text(questions[i])
+				for j in range(4):
+					option = self.process_text(options[i][j])
+
+					if "_" in question:
+					qa_cat = question.replace("_", option)
+					else:
+					qa_cat = " ".join([question, option])
+
+					qa_list.append(qa_cat)
+
+				examples.append(
+					InputExample(
+						example_id=cur_data["id"],
+						context_sentence=context,
+						start_ending=None,
+						endings=[qa_list[0], qa_list[1], qa_list[2], qa_list[3]],
+						label=label
+					)
+				)
+
+		return examples
+
+
 def convert_single_example(ex_index, example, label_list, max_seq_length,
 													 tokenizer):
 	"""Converts a single `InputExample` into a single `InputFeatures`."""
@@ -806,7 +887,7 @@ def main(_):
 	SEED = FLAGS.seed
 	tf.reset_default_graph()
 	os.environ['PYTHONHASHSEED']=str(SEED)
-	os.environ['TF_CUDNN_DETERMINISTIC'] = '1'  # new flag present in tf 2.0+
+	os.environ['TF_CUDNN_DETERMINISTIC'] = '1'	# new flag present in tf 2.0+
 	random.seed(SEED)
 	np.random.seed(SEED)
 	tf.set_random_seed(SEED)

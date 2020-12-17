@@ -37,9 +37,11 @@ class CapsLayer():
 				# the DigitCaps layer, a fully connected layer
 				# Reshape the input into [batch_size, 1152, 1, 8, 1]
 				self.input = tf.reshape(input, shape=(self.bz, -1, 1, input.shape[-2].value, 1))
+				print("input tensor shape: {}".format([self.bz, -1, 1, input.shape[-2].value, 1]))
 
 				with tf.variable_scope('routing'):
 					print("b_IJ tensor shape: {}".format([self.bz, input.shape[1], self.num_outputs, 1, 1]))
+					#input.shape[1].value
 					#b_IJ = tf.constant(np.zeros([self.bz, input.shape[1].value, self.num_outputs, 1, 1], dtype=np.float32))
 					b_IJ = tf.constant(np.zeros([8, input.shape[1], self.num_outputs, 1, 1], dtype=np.float32))
 					#  (input.shape[1].value)µÄÖµÊÇmax_seq_len * 16

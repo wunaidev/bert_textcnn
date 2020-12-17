@@ -317,11 +317,11 @@ class BertCapsule(BertModel):
 		print("_________caps1 shape: {} ___________".format(caps1.shape))
 
 		with tf.variable_scope('Second_caps_layer'):
-			secondCaps = CapsLayer(num_outputs=4, vec_len=8, layer_type='FC', with_routing=True, bz=batch_size)
+			secondCaps = CapsLayer(num_outputs=4, vec_len=8, layer_type='FC', with_routing=True, bz=self.batch_size)
 			self.caps2 = secondCaps(caps1, kernel_size=3, stride=1)
 
 		with tf.variable_scope('LSTM_layer'):
-			caps2_reshape = tf.reshape(self.caps2, [batch_size, 4, -1])
+			caps2_reshape = tf.reshape(self.caps2, [self.batch_size, 4, -1])
 			caps2_unstack = tf.unstack(caps2_reshape, 4, 1)
 			W = tf.Variable(tf.random_normal([32, 4]))
 			b = tf.Variable(tf.random_normal([4]))

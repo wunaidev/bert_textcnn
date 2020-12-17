@@ -1,5 +1,10 @@
 *************bert-base**************
 
+pip3 uninstall -y tensorflow-gpu
+pip3 uninstall -y tensorflow
+pip3 install tensorflow-gpu==1.13.1
+
+
 git clone https://github.com/wunaidev/bert_textcnn.git
 cd bert_textcnn
 
@@ -7,11 +12,6 @@ wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-
 unzip uncased_L-12_H-768_A-12.zip
 
 python3 download_glue_data.py --data_dir glue_data --tasks MRPC
-
-pip3 uninstall -y tensorflow-gpu
-pip3 uninstall -y tensorflow
-pip3 install tensorflow-gpu==1.13.1
-
 
 export BERT_BASE_DIR=/root/bert_textcnn/uncased_L-12_H-768_A-12
 export GLUE_DIR=/root/bert_textcnn/glue_data
@@ -46,6 +46,44 @@ python3 run_classifier.py \
   --learning_rate=2e-5 \
   --num_train_epochs=3.0 \
   --output_dir=/tmp/mrpc_output2/
+
+
+
+
+*************colab jupyter notebook°æ****************
+
+!pip3 uninstall -y tensorflow-gpu
+!pip3 uninstall -y tensorflow
+!pip3 install tensorflow-gpu==1.13.1
+
+
+!git clone https://github.com/wunaidev/bert_textcnn.git
+%cd bert_textcnn
+
+!wget https://storage.googleapis.com/bert_models/2018_10_18/uncased_L-12_H-768_A-12.zip
+!unzip uncased_L-12_H-768_A-12.zip
+
+!python3 download_glue_data.py --data_dir glue_data --tasks MRPC
+
+import os
+os.environ['BASE_BERT_DIR'] = "/root/bert_textcnn/uncased_L-12_H-768_A-12"
+os.environ['GLUE_DIR'] = "/root/bert_textcnn/glue_data"
+
+
+!python3 run_classifier2.py \
+  --task_name=MRPC \
+  --do_train=true \
+  --do_eval=true \
+  --data_dir=$GLUE_DIR/MRPC \
+  --vocab_file=$BERT_BASE_DIR/vocab.txt \
+  --bert_config_file=$BERT_BASE_DIR/bert_config.json \
+  --init_checkpoint=$BERT_BASE_DIR/bert_model.ckpt \
+  --max_seq_length=128 \
+  --train_batch_size=8 \
+  --learning_rate=2e-5 \
+  --num_train_epochs=3.0 \
+  --output_dir=/tmp/mrpc_output/ \
+  --seed=0
 
 
 

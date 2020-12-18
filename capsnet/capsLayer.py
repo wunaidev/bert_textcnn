@@ -3,13 +3,13 @@ import numpy as np
 
 epsilon = 1e-9
 
-cfg_batch_size = 9
+cfg_batch_size = 8
 cfg_iter_routing = 3
 cfg_stddev = 0.1
 
 class CapsLayer():
 
-	def __init__(self, num_outputs, vec_len, layer_type='FC', with_routing=True):
+	def __init__(self, num_outputs, vec_len, layer_type='FC', with_routing=True, bz=8):
 		self.num_outputs = num_outputs
 		self.vec_len = vec_len
 		self.layer_type = layer_type

@@ -37,6 +37,7 @@ class CapsLayer():
 				# the DigitCaps layer, a fully connected layer
 				# Reshape the input into [batch_size, 1152, 1, 8, 1]
 				self.input = tf.reshape(input, shape=(cfg_batch_size, -1, 1, input.shape[-2].value, 1))
+				print("self.input.shape : ".format(self.input.shape))
 
 				with tf.variable_scope('routing'):
 					b_IJ = tf.constant(np.zeros([cfg_batch_size, input.shape[1].value, self.num_outputs, 1, 1], dtype=np.float32))
